@@ -1,0 +1,66 @@
+{{ $data := newScratch }}
+{{ $pages := .Site.Pages.ByPublishDate.Reverse }}
+{{ $data.Set "pages" $pages }}
+{
+  "version": "https://jsonfeed.org/version/1.1",
+  "title": "{{ .Site.Title }}",
+  "home_page_url": "{{ .Permalink }}",
+  "feed_url": "{{ .Permalink}}/index.json",
+  {{ if isset .Site.Params "description" }}
+  "description": "{{ .Site.Params.description }}",
+  {{ end }}
+  "user_comment": "This is a JSON feed of the posts on the site.",
+  {{ if isset .Site.Params "favicon" }}
+  "favicon": "{{ .Site.Params.favicon }}",
+  {{ end }}
+  {{ if isset .Site.Params "authors" }}
+  "authors": { "name": "{{ .Site.Params.authors }}" },
+  {{ end }}
+  {{ if isset .Site.Params "language" }}
+  "language": "{{ .Site.Params.language }}",
+  {{ end }}
+  {{ if isset .Site.Params "expired" }}
+  "expired": "{{ .Site.Params.expired }}",
+  {{ end }}
+  "items": [
+  {{ range $i, $e := ( first 5 .Pages ) }}
+  {{ if $i }}, {{ end }}
+    {
+      "id": "{{ .Permalink }}",
+      {{ if isset .Permalink }}
+      "url": "{{ .Permalink }}",
+      {{ end }}
+      {{ if isset .Params.DOI }}
+      "external_url": "{{ .Params.DOI }}",
+      {{ end }}
+      {{ if isset .Title }}
+      "title": "{{ .Title }}",
+      {{ end }}
+      "content_html": {{ .Content | replaceRE "\n" "" | jsonify }},
+      {{ if isset .Summary }}
+      "summary": {{ .Summary | jsonify }},
+      {{ end }}
+      {{ if isset .Params.image }}
+      "image": "{{ .Params.image }}",
+      {{ end }}
+      {{ if isset .Date }}
+      "date_published": "{{ .Date.Format "2006-01-02T15:04:05-07:00" | safeHTML }}",
+      {{ end }}
+      {{ if isset .Lastmod }}
+      "date_modified": "{{ .Lastmod.Format "2006-01-02T15:04:05-07:00" | safeHTML }}",
+      {{ end }}
+      "authors": [{{ range $i, $e := ($data.Get "authors") }}{{ range first 1 (where ($data.Get "pages") ".Params.name" $e) }}{{ $params := .Params }}{{ $name := $params.name }}{{ if $i }}, {{ end }}{{ range first 1 (where ($data.Get "pages") ".Params.name" $e) }}
+				{
+      "name": "{{ $name }}",
+      "url": "{{ if isset .Params "orcid" }}https://orcid.org/{{ .Params.orcid }}{{ else }}{{ .Permalink }}{{ end }}",
+      "avatar": "{{ ( partial "blogs/author-img" . ) }}"
+      }{{ end }}{{ end }}{{ end }}],
+      ],
+			{{ with .Params.tags }} "tags": {{ . | uniq | jsonify}},{{ end }}
+      {{ if isset .Params.language }}
+      "language": "{{ .Params.language }}",
+      {{ end }}
+    }
+  {{ end }}
+  ]
+}
