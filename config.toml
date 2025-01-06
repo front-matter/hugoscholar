@@ -1,14 +1,10 @@
 # JSON Feed
-# Add "JSON" to the Page Kinds under [outputs] (in your site config) for which
+# Add "json" to the Page Kinds under [outputs] (in your site config) for which
 # you want to enable JSON Feed.
-# Example:
-#   [outputs]
-#     home = ["HTML", "JSON"]
-# https://gist.github.com/lpar/7ded35d8f52fef7490a5be92e6cd6937
 [mediaTypes."application/feed+json"]
   suffixes = ["json"]
-[outputFormats.JSON]
-  name = "JSON"
+[outputFormats.json]
+  name = "json"
   mediaType = "application/feed+json"
   baseName = "index" # generated file = <baseName>.<mediaType."application/feed+json".suffixes[0]> = index.json
   isPlainText = false
