@@ -10,7 +10,7 @@
 [outputFormats.JSON]
   name = "JSON"
   mediaType = "application/feed+json"
-  baseName = "atom" # generated file = <baseName>.<mediaType."application/feed+json".suffixes[0]> = index.json
+  baseName = "json" # generated file = <baseName>.<mediaType."application/feed+json".suffixes[0]> = index.json
   isPlainText = false
   rel = "alternate"
   isHTML = false
