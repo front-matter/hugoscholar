@@ -30,8 +30,8 @@
       {{ if isset .Permalink }}
       "url": "{{ .Permalink }}",
       {{ end }}
-      {{ if isset .Params.DOI }}
-      "external_url": "{{ .Params.DOI }}",
+      {{ if isset .Params.ExternalUrl }}
+      "external_url": "{{ .Params.ExternalUrl }}",
       {{ end }}
       {{ if isset .Title }}
       "title": "{{ .Title }}",
@@ -40,7 +40,7 @@
       {{ if isset .Summary }}
       "summary": {{ .Summary | jsonify }},
       {{ end }}
-      {{ if isset .Params.image }}
+      {{ if isset .Params "image" }}
       "image": "{{ .Params.image }}",
       {{ end }}
       {{ if isset .Date }}
@@ -49,6 +49,7 @@
       {{ if isset .Lastmod }}
       "date_modified": "{{ .Lastmod.Format "2006-01-02T15:04:05-07:00" | safeHTML }}",
       {{ end }}
+      {{ if isset .Params "authors" }}
       "authors": [{{ range $i, $e := ($data.Get "authors") }}{{ range first 1 (where ($data.Get "pages") ".Params.name" $e) }}{{ $params := .Params }}{{ $name := $params.name }}{{ if $i }}, {{ end }}{{ range first 1 (where ($data.Get "pages") ".Params.name" $e) }}
 				{
       "name": "{{ $name }}",
@@ -56,8 +57,9 @@
       "avatar": "{{ ( partial "blogs/author-img" . ) }}"
       }{{ end }}{{ end }}{{ end }}],
       ],
+      {{ end }}
 			{{ with .Params.tags }} "tags": {{ . | uniq | jsonify}},{{ end }}
-      {{ if isset .Params.language }}
+      {{ if isset .Params "language" }}
       "language": "{{ .Params.language }}",
       {{ end }}
     }
