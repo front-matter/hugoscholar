@@ -1,0 +1,10 @@
+name = "Hugo Scholar"
+license = "MIT"
+licenselink = "https://github.com/front-matter/hugoscholar/blob/main/LICENSE"
+description = "Hugo theme component for creating JSON Feed for Hugo 'list' pages"
+tags = ["component", "feed", "json", "output-format"]
+features = ["jsonfeed"]
+
+[author]
+    name = "Martin Fenner"
+    homepage = "https://front-matter.io/"
