@@ -14,5 +14,6 @@
   isPlainText = false
   rel = "alternate"
   isHTML = false
-  noUgly = true
-  permalinkable = true
+  noUgly = false
+  permalinkable = false
+  root = true
